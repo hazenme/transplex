@@ -1,9 +1,7 @@
 [Unit]
 Description=Control Transmission upstream limit based on Plex remote streams.
 After=transmission-daemon.service
-After=plexmediaserver.service
 Requires=transmission-daemon.service
-Requires=plexmediaserver.service
 
 [Service]
 User=USERNAME

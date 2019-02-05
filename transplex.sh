@@ -19,7 +19,8 @@ tr_port=9091
 tr_username=USERNAME
 tr_password=PASSWORD
 
-# Plex account token
+# Plex info
+plex_server=localhost
 token=REDACTED
 
 # Local network
@@ -61,7 +62,7 @@ while true; do
                 fi
 
         # pull the information from plex web app
-        done < <(curl --silent localhost:32400/status/sessions?X-Plex-Token=$token)
+        done < <(curl --silent $plex_server:32400/status/sessions?X-Plex-Token=$token)
 
         # need to work in Kb/s
         upspeed=$(( $maxupspeed - ( $totalbitrate / 8 ) ))
