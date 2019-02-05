@@ -31,20 +31,20 @@ delay=10
 
 while true; do
 
-        totalbitrate=0
+        totalbandwidth=0
 
         while read LINE; do
 
                 if [[ $LINE == \<Video* ]]; then
                         # start of a video section
-                        bitrate=0
+                        bandwidth=0
                         isremote=0
 
-                elif [[ $LINE == \<Stream* ]]; then
-                        # each stream entry is read and parsed to extract the bitrate
-                        streambitrate=$(echo $LINE | grep -o bitrate=\"[0-9]* | sed 's/bitrate=\"//g')
-                        if [[ $streambitrate =~ [0-9]+$ ]]; then
-                                let bitrate+=$streambitrate
+                elif [[ $LINE == \<Session* ]]; then
+                        # each stream entry is read and parsed to extract the bandwidth
+                        streambandwidth=$(echo $LINE | grep -o bandwidth=\"[0-9]* | sed 's/bandwidth=\"//g')
+                        if [[ $streambandwidth =~ [0-9]+$ ]]; then
+                                let bandwidth+=$streambandwidth
                         fi
 
                 elif [[ $LINE == \<Player* ]]; then
@@ -57,7 +57,7 @@ while true; do
                 elif [[ $LINE == *\<\/Video\>* ]]; then
                         # end of a video section, count this if its remote
                         if [[ $isremote = 1 ]]; then
-                                let totalbitrate+=$bitrate
+                                let totalbandwidth+=$bandwidth
                         fi
                 fi
 
@@ -65,7 +65,7 @@ while true; do
         done < <(curl --silent $plex_server:32400/status/sessions?X-Plex-Token=$token)
 
         # need to work in Kb/s
-        upspeed=$(( $maxupspeed - ( $totalbitrate / 8 ) ))
+        upspeed=$(( $maxupspeed - ( $totalbandwidth / 8 ) ))
 
         # never set the upload speed below specified value
         if [[ $upspeed -lt $minupspeed ]]; then
