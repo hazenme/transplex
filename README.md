@@ -16,8 +16,12 @@ The script parses the XML Session Status returned by PMS, tallies the bitrate of
 
 Requires the transmission-cli and curl packages to be installed.
 
+To control the service, use systemctl (ex. sudo systemctl stop transplex)
+
 Source: http://pastebin.com/KUUjAGnE
+
 SystemD service unit config: http://pastebin.com/Gq9C1329
+
 PMS version 0.9.16.3
 
 Transmission version 2.84
