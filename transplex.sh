@@ -62,7 +62,7 @@ while true; do
                 fi
 
         # pull the information from plex web app
-        done < <(curl --silent $plex_server:32400/status/sessions?X-Plex-Token=$token)
+        done < <(curl --silent -k https://$plex_server:32400/status/sessions?X-Plex-Token=$token)
 
         # need to work in Kb/s
         upspeed=$(( $maxupspeed - ( $totalbandwidth / 8 ) ))
